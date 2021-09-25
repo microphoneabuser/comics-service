@@ -25,6 +25,7 @@ func (h *Handler) SetupRoutes() {
 	http.HandleFunc("/upload", h.uploadComic)
 	http.HandleFunc("/comic", h.getComic)
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("views/images/"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
 }
 
 func redirect(w http.ResponseWriter, r *http.Request) {

@@ -1,0 +1,16 @@
+body{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    line-height: 1.6;
+    background-color: rgb(146, 216, 189);
+}
+.bd {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+    border-width: 1px;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
