@@ -21,9 +21,10 @@ type comicData struct {
 	Img         string
 	Description string
 	IsMine      bool
+	IsEdit      bool
 }
 
-func (h *Handler) feedHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) feedGetHandler(w http.ResponseWriter, r *http.Request) {
 	if h.user.Id != 0 {
 		comics, _ := h.repos.Comics.GetAll()
 		data := feedData{}
@@ -44,7 +45,7 @@ func (h *Handler) feedHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handler) userFeedHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) userFeedGetHandler(w http.ResponseWriter, r *http.Request) {
 	if h.user.Id != 0 {
 		comics, _ := h.repos.Comics.GetUsersAll(h.user.Id)
 		data := feedData{}

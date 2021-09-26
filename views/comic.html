@@ -9,13 +9,10 @@
     <title>{{ .Title }}</title>
     <script>
         function edit() {
-            document.getElementById("editform").style.visibility = "visible";
-            document.getElementById("info").style.visibility = "hidden"
-            
+            window.location.replace("/comic?id={{ .Id }}&edit=1");
         }
         function info() {
-            document.getElementById("editform").style.visibility = "hidden";
-            document.getElementById("info").style.visibility = "visible"
+            window.location.replace("/comic?id={{ .Id }}");
         }
     </script>
 </head>
@@ -69,55 +66,61 @@
             </div>
         </nav>
     </header>
-    <div>
-        {{ if .IsMine }}
-        <h1 class="product_title">{{ .Title }}</h1>
-        <div class="row justify-content-center">
-            <div class="row justify-content-center" style="max-width: 850px;">
-                <img class="card-img-top" style="margin: 15px; max-width: 850px;" src="{{ .Img }}">
+    <div class="row justify-content-center">
+    {{ if .IsMine }}
+        {{ if .IsEdit }}
+        <div></div>
+        {{ else }}
+        <h1 class="comic_title" id="infoTitle">{{ .Title }}</h1>
+        {{ end }}
+        <div class="d-flex flex-column row-cols-auto" style="margin-bottom: 20px; max-width: 800px; align-content: center">
+            <div class="row justify-content-center" style="max-width: 800px;">
+                <img style="margin-bottom: 15px; margin-top: 15px; max-width: 800px;" src="{{ .Img }}">
                 <div class="container-sm" style="max-width: 800px;">
-                    <div class="card-body" id="info">
-                        <h3 class="date">{{ .Date }}</h3>
-                        <label class="form-label" id="infoName">Название</label>
-                        <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
-                        <h3 class="description">{{ .Description }}</h3>
-                        <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Изменить" onclick="edit()"/>
-                    </div>
-                    <form class="row g-3" id="editform" enctype="multipart/form-data" action="" method="POST" style="visibility:hidden;">
+                    
+                    {{ if .IsEdit }}
+                    <form class="d-flex flex-column justify-content-center" id="editform" enctype="multipart/form-data" action="/comic?id={{ .Id }}" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Название</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="about dogs">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="" value="{{ .Title }}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Описание</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3">{{ .Description }}</textarea>
                         </div>
-                        <div class="col-md-10">
-                            <input class="form-control" type="file" name="myFile"/>
+                        <div class="d-flex">
+                            <div class="col-md-10">
+                                <input class="form-control" type="file" name="myFile"/>
+                            </div>
+                            <div class="col-md-4" style="margin-left: 20px;">
+                                <input class="btn btn-outline-success" type="submit" value="Загрузить"/>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <input class="btn btn-outline-success" type="submit" value="Загрузить"/>
-                        </div>
+                        <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Назад" onclick="info()" style="margin: 30px;"/>
                     </form>
-                </div>
-            </div>
-        </div>
-        {{ else }}
-        <h1 class="product_title">{{ .Title }}</h1>
-        <div class="row justify-content-center">
-            <div class="row justify-content-center">
-                <img class="card-img-top" style="margin: 15px; max-width: 850px;" src="{{.Img }}">
-                <div class="container-sm">
-                    <div class="card-body">
+                    {{ else }}
+                    <div class="d-flex flex-column justify-content-center" id="info">
                         <h3 class="date">{{ .Date }}</h3>
-                        <h3 class="author">{{ .User }}</h3>
-                        <h3 class="title">{{ .Title }}</h3>
-                        <h3 class="description">{{ .Description }}</h3>
+                        <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
+                        <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Изменить" onclick="edit()" style="margin-top: 30px;"/>
                     </div>
+                    {{ end }}
                 </div>
             </div>
         </div>
-        {{end}}
+    {{ else }}
+        <h1 class="comic_title" id="infoTitle">{{ .Title }}</h1>
+        <div class="d-flex flex-column row-cols-auto" style="margin-bottom: 20px; max-width: 800px; align-content: center">
+            <div class="row justify-content-center" style="max-width: 800px;">
+                <img style="margin-bottom: 15px; margin-top: 15px; max-width: 800px;" src="{{ .Img }}">
+                <div class="d-flex flex-column justify-content-center">
+                    <h3 class="date">{{ .Date }}</h3>
+                    <a class="author" href="">Автор: {{ .User }}</a>
+                    <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
+                </div>
+            </div>
+        </div>
+    {{ end }}
     </div>
 </body>
 </html>

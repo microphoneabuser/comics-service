@@ -19,10 +19,15 @@ type signInInput struct {
 	Error    error  `json:"error"`
 }
 
-func (h *Handler) authHandler(w http.ResponseWriter, r *http.Request) {
-	hash := utils.GenHash(r.FormValue("password"))
+func (h *Handler) authGetHandler(w http.ResponseWriter, r *http.Request) {
+	tAuth.Execute(w, nil)
+}
+
+func (h *Handler) authPostHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	hash := utils.GenHash(r.PostForm.Get("password"))
 	data := signInInput{
-		Login:    r.FormValue("login"),
+		Login:    r.PostForm.Get("login"),
 		Password: hash,
 		Failed:   false,
 		Error:    nil,

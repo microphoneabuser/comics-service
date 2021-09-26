@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/microphoneabuser/comics_service"
-
 	"github.com/microphoneabuser/comics_service/pkg/repository"
 )
 
@@ -18,14 +18,25 @@ func NewHandler(repos *repository.Repository) *Handler {
 }
 
 func (h *Handler) SetupRoutes() {
-	http.HandleFunc("/", redirect)
-	http.HandleFunc("/auth", h.authHandler)
-	http.HandleFunc("/feed", h.feedHandler)
-	http.HandleFunc("/my", h.userFeedHandler)
-	http.HandleFunc("/upload", h.uploadComic)
-	http.HandleFunc("/comic", h.getComic)
-	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("views/images/"))))
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static/"))))
+	r := mux.NewRouter()
+	r.HandleFunc("/", redirect)
+	r.HandleFunc("/auth", h.authGetHandler).Methods("GET")
+	r.HandleFunc("/auth", h.authPostHandler).Methods("POST")
+
+	r.HandleFunc("/feed", h.feedGetHandler).Methods("GET")
+	r.HandleFunc("/my", h.userFeedGetHandler).Methods("GET")
+
+	r.HandleFunc("/upload", h.uploadComicGetHandler).Methods("GET")
+	r.HandleFunc("/upload", h.uploadComicPostHandler).Methods("POST")
+
+	r.HandleFunc("/comic", h.comicGetHandler).Methods("GET")
+	r.HandleFunc("/comic", h.comicPostHandler).Methods("POST")
+
+	fsi := http.FileServer(http.Dir("views/images/"))
+	r.PathPrefix("/images/").Handler(http.StripPrefix("/images/", fsi))
+	fss := http.FileServer(http.Dir("static/"))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fss))
+	http.Handle("/", r)
 }
 
 func redirect(w http.ResponseWriter, r *http.Request) {

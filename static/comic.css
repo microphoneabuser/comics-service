@@ -67,7 +67,7 @@ h1,h2,h3,h4,h5,h6{
     background-color: rgba(146, 189, 160, 0.726);
     color: azure;
 }
-.product_title{
+.comic_title{
     display: flex;
     padding-top: 20px;
     justify-content: center;
@@ -97,7 +97,7 @@ h1,h2,h3,h4,h5,h6{
 	bottom: 0;
 	left: 0;
     right: 0;
-    font-size: 15px;
+    font-size: 18px;
 	max-width: 100%;
 	max-height: 30%;
 	margin: auto;

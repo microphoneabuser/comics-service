@@ -11,7 +11,7 @@ var (
 	tComic = template.Must(template.ParseFiles("views/comic.html"))
 )
 
-func (h *Handler) getComic(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) comicGetHandler(w http.ResponseWriter, r *http.Request) {
 	if h.user.Id != 0 {
 		data := comicData{}
 		keys := r.URL.Query()
@@ -41,6 +41,17 @@ func (h *Handler) getComic(w http.ResponseWriter, r *http.Request) {
 		}
 		if comic.UserId == h.user.Id {
 			data.IsMine = true
+			edit := keys.Get("edit")
+			if edit != "" {
+				data.IsEdit, err = strconv.ParseBool(edit)
+				if err != nil {
+					tComic.Execute(w, data)
+					fmt.Fprintf(w, `<div class="alert alert-success" role="alert">
+					Данной страницы не существует
+					</div>`)
+					return
+				}
+			}
 		} else {
 			user, _ := h.repos.Comics.GetAuthorById(comicId)
 			data.User = user.Name
@@ -49,4 +60,8 @@ func (h *Handler) getComic(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Redirect(w, r, "/auth", http.StatusFound)
 	}
+}
+
+func (h *Handler) comicPostHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/feed", http.StatusFound)
 }
