@@ -15,7 +15,9 @@
             window.location.replace("/comic?id={{ .Id }}");
         }
         function del() {
-            window.location.replace("/del?id={{ .Id }}");
+            if (confirm("Вы уверены, что хотите удалить данный комикс?")) {
+                window.location.replace("/del?id={{ .Id }}");
+            }
         }
     </script>
 </head>
@@ -106,7 +108,7 @@
                         <h3 class="date">{{ .Date }}</h3>
                         <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
                         <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Изменить" onclick="edit()" style="margin-top: 30px;"/>
-                        <!-- <input class="btn btn-outline-secondary" id="delbtn" type="button" value="Удалить" onclick="del()" style="margin-top: 30px;"/> -->
+                        <input class="btn btn-outline-danger" id="delbtn" type="button" value="Удалить" onclick="del()" style="margin-top: 30px;"/>
                     </div>
                     {{ end }}
                 </div>

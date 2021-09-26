@@ -22,6 +22,7 @@ func (h *Handler) comicGetHandler(w http.ResponseWriter, r *http.Request) {
 		data := comicData{}
 		keys := r.URL.Query()
 		comicId, err := strconv.Atoi(keys.Get("id"))
+		h.comicId = comicId
 		if err != nil {
 			fmt.Fprintf(w, `404 page not found`)
 			return
@@ -129,4 +130,25 @@ func (h *Handler) loadFile(w http.ResponseWriter, r *http.Request, file multipar
 	tempFile.Write(fileBytes)
 
 	return filename, nil
+}
+
+func (h *Handler) comicDeleteHandler(w http.ResponseWriter, r *http.Request) {
+	if h.user.Id != 0 {
+		keys := r.URL.Query()
+		comicId, _ := strconv.Atoi(keys.Get("id"))
+		if h.comicId != comicId {
+			http.Redirect(w, r, "/feed", http.StatusFound)
+			return
+		}
+		if user, _ := h.repos.Comics.GetAuthorById(comicId); user.Id != h.user.Id {
+			fmt.Fprintf(w, `404 page not found`)
+			return
+		}
+		if err := h.repos.Comics.Delete(comicId); err != nil {
+			fmt.Fprintf(w, `404 page not found`)
+			return
+		} else {
+			http.Redirect(w, r, "/my", http.StatusFound)
+		}
+	}
 }

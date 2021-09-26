@@ -9,8 +9,9 @@ import (
 )
 
 type Handler struct {
-	repos *repository.Repository
-	user  comics_service.User
+	repos   *repository.Repository
+	user    comics_service.User
+	comicId int
 }
 
 func NewHandler(repos *repository.Repository) *Handler {
@@ -31,6 +32,8 @@ func (h *Handler) SetupRoutes() {
 
 	r.HandleFunc("/comic", h.comicGetHandler).Methods("GET")
 	r.HandleFunc("/comic", h.comicPostHandler).Methods("POST")
+
+	r.HandleFunc("/del", h.comicDeleteHandler).Methods("GET")
 
 	fsi := http.FileServer(http.Dir("views/images/"))
 	r.PathPrefix("/images/").Handler(http.StripPrefix("/images/", fsi))
