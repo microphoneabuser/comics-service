@@ -38,7 +38,7 @@ func (h *Handler) uploadComicPostHandler(w http.ResponseWriter, r *http.Request)
 		if data.Title != "" && data.Description != "" {
 			var filename string
 			var err error
-			if filename, err = h.loadFile(w, r); err != nil {
+			if filename, err = h.uploadFile(w, r); err != nil {
 				tUpload.Execute(w, data)
 				fmt.Fprint(w, filename)
 				log.Println(err)
@@ -77,7 +77,7 @@ func (h *Handler) uploadComicPostHandler(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-func (h *Handler) loadFile(w http.ResponseWriter, r *http.Request) (string, error) {
+func (h *Handler) uploadFile(w http.ResponseWriter, r *http.Request) (string, error) {
 	r.ParseMultipartForm(10 << 20)
 	file, _, err := r.FormFile("myFile")
 	if err != nil {

@@ -1,7 +1,5 @@
 package comics_service
 
-import "errors"
-
 type Comic struct {
 	Id          int    `json:"id" db:"id"`
 	Title       string `json:"title" db:"title"`
@@ -14,15 +12,7 @@ type Comic struct {
 }
 
 type UpdateComicInput struct {
-	Title       *string `json:"title"`
-	Img         *string `json:"img"`
-	Description *string `json:"description"`
-}
-
-func (i UpdateComicInput) Validate() error {
-	if i.Img == nil && i.Title == nil && i.Description == nil {
-		return errors.New("update structure has no values")
-	}
-
-	return nil
+	Title       string `json:"title"`
+	Img         string `json:"img"`
+	Description string `json:"description"`
 }

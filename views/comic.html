@@ -14,6 +14,9 @@
         function info() {
             window.location.replace("/comic?id={{ .Id }}");
         }
+        function del() {
+            window.location.replace("/del?id={{ .Id }}");
+        }
     </script>
 </head>
 <body>
@@ -75,11 +78,11 @@
         {{ end }}
         <div class="d-flex flex-column row-cols-auto" style="margin-bottom: 20px; max-width: 800px; align-content: center">
             <div class="row justify-content-center" style="max-width: 800px;">
-                <img style="margin-bottom: 15px; margin-top: 15px; max-width: 800px;" src="{{ .Img }}">
+                <img style="margin-bottom: 15px; margin-top: 15px; max-width: 800px;" name="img" src="{{ .Img }}">
                 <div class="container-sm" style="max-width: 800px;">
                     
                     {{ if .IsEdit }}
-                    <form class="d-flex flex-column justify-content-center" id="editform" enctype="multipart/form-data" action="/comic?id={{ .Id }}" method="POST">
+                    <form class="d-flex flex-column justify-content-center" id="editform" enctype="multipart/form-data" method="POST">
                         <div class="mb-3">
                             <label class="form-label">Название</label>
                             <input type="text" class="form-control" id="title" name="title" placeholder="" value="{{ .Title }}">
@@ -93,7 +96,7 @@
                                 <input class="form-control" type="file" name="myFile"/>
                             </div>
                             <div class="col-md-4" style="margin-left: 20px;">
-                                <input class="btn btn-outline-success" type="submit" value="Загрузить"/>
+                                <input class="btn btn-outline-success" type="submit" value="Сохранить"/>
                             </div>
                         </div>
                         <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Назад" onclick="info()" style="margin: 30px;"/>
@@ -103,6 +106,7 @@
                         <h3 class="date">{{ .Date }}</h3>
                         <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
                         <input class="btn btn-outline-secondary" id="editbtn" type="button" value="Изменить" onclick="edit()" style="margin-top: 30px;"/>
+                        <!-- <input class="btn btn-outline-secondary" id="delbtn" type="button" value="Удалить" onclick="del()" style="margin-top: 30px;"/> -->
                     </div>
                     {{ end }}
                 </div>
