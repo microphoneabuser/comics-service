@@ -12,6 +12,7 @@ type Comic struct {
 }
 
 type UpdateComicInput struct {
+	UserId      int
 	Title       string `json:"title"`
 	Img         string `json:"img"`
 	Description string `json:"description"`

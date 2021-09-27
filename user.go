@@ -6,3 +6,9 @@ type User struct {
 	Login    string `json:"login" db:"login"`
 	Password string `json:"password_hash" db:"password_hash"`
 }
+
+type UpdateUserInput struct {
+	Name     string
+	Login    string
+	Password string
+}

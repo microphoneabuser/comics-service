@@ -17,6 +17,7 @@ type comicData struct {
 	Id          int
 	Title       string
 	User        string
+	UserId      int
 	Date        string
 	Img         string
 	Description string

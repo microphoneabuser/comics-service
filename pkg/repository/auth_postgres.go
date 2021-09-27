@@ -18,7 +18,7 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 func (r *AuthPostgres) CreateUser(user serv.User) (int, error) {
 	var id int
 	query := fmt.Sprintf("INSERT INTO %s (name, login, password_hash) values ($1, $2, $3) RETURNING id", usersTable)
-	
+
 	row := r.db.QueryRow(query, user.Name, user.Login, user.Password)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
@@ -37,8 +37,14 @@ func (r *AuthPostgres) GetUser(login, password string) (serv.User, error) {
 
 func (r *AuthPostgres) GetUserById(id int) (serv.User, error) {
 	var user serv.User
-	query := fmt.Sprintf("SELECT id, name, login FROM %s WHERE id=$1", usersTable)
+	query := fmt.Sprintf("SELECT id, name, login, password_hash FROM %s WHERE id=$1", usersTable)
 	err := r.db.Get(&user, query, id)
 
 	return user, err
+}
+
+func (r *AuthPostgres) Update(userId int, input serv.UpdateUserInput) error {
+	query := fmt.Sprintf("UPDATE %s SET name = $1, login = $2, password_hash = $3 WHERE id = $4", usersTable)
+	_, err := r.db.Exec(query, input.Name, input.Login, input.Password, userId)
+	return err
 }

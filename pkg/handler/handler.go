@@ -35,6 +35,9 @@ func (h *Handler) SetupRoutes() {
 
 	r.HandleFunc("/del", h.comicDeleteHandler).Methods("GET")
 
+	r.HandleFunc("/user", h.userGetHandler).Methods("GET")
+	r.HandleFunc("/user", h.userPostHandler).Methods("POST")
+
 	fsi := http.FileServer(http.Dir("views/images/"))
 	r.PathPrefix("/images/").Handler(http.StripPrefix("/images/", fsi))
 	fss := http.FileServer(http.Dir("static/"))

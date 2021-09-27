@@ -53,6 +53,7 @@ func (h *Handler) comicGetHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			user, _ := h.repos.Comics.GetAuthorById(comicId)
 			data.User = user.Name
+			data.UserId = user.Id
 		}
 		tComic.Execute(w, data)
 	} else {

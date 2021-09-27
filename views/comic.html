@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
+                        <a class="nav-link text-white" href="/user">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             </svg>
@@ -121,7 +121,7 @@
                 <img style="margin-bottom: 15px; margin-top: 15px; max-width: 800px;" src="{{ .Img }}">
                 <div class="d-flex flex-column justify-content-center">
                     <h3 class="date">{{ .Date }}</h3>
-                    <a class="author" href="">Автор: {{ .User }}</a>
+                    <a class="author" href="/user?id={{ .UserId }}">Автор: {{ .User }}</a>
                     <textarea class="form-control" id="infoDescription" name="infoDescription" rows="3" readonly>{{ .Description }}</textarea>
                 </div>
             </div>

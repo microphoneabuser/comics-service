@@ -9,6 +9,7 @@ type Authorization interface {
 	CreateUser(user serv.User) (int, error)
 	GetUser(login, password string) (serv.User, error)
 	GetUserById(id int) (serv.User, error)
+	Update(userId int, input serv.UpdateUserInput) error
 }
 
 type Comics interface {
