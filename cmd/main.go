@@ -36,6 +36,8 @@ func main() {
 	repos := repository.NewRepository(db)
 	handlers := handler.NewHandler(repos)
 
+	log.Println("Comics service started")
+
 	if err := server.RunServer(viper.GetString("port"), handlers); err != nil {
 		log.Fatalf("error occured while running http server: %s", err.Error())
 	}
