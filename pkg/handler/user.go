@@ -112,7 +112,7 @@ func (h *Handler) userPostHandler(w http.ResponseWriter, r *http.Request) {
 				fmt.Fprintf(w, `<script>alert("Произошла ошибка при изменении пользователя...")</script>`)
 				h.userGetHandler(w, r)
 			} else {
-				h.userGetHandler(w, r)
+				http.Redirect(w, r, fmt.Sprintf("/user?id=%d", h.user.Id), http.StatusFound)
 			}
 		} else {
 			fmt.Fprintf(w, `<script>alert("Остались пустые поля...")</script>`)

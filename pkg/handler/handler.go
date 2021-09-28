@@ -24,6 +24,9 @@ func (h *Handler) SetupRoutes() {
 	r.HandleFunc("/auth", h.authGetHandler).Methods("GET")
 	r.HandleFunc("/auth", h.authPostHandler).Methods("POST")
 
+	r.HandleFunc("/signup", h.signUpGetHandler).Methods("GET")
+	r.HandleFunc("/signup", h.signUpPostHandler).Methods("POST")
+
 	r.HandleFunc("/feed", h.feedGetHandler).Methods("GET")
 	r.HandleFunc("/my", h.userFeedGetHandler).Methods("GET")
 

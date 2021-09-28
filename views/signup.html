@@ -10,21 +10,29 @@
     <body>
         <div class="row justify-content-center">
             <form class="form-horizontal" method="POST">
-                <span class="heading">АВТОРИЗАЦИЯ</span>
+                <span class="heading">Регистрация</span>
                 <div class="form-group">
-                    <input type="login" class="form-control" id="login" name="login" placeholder="Логин">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Имя пользователя" value="{{ .Name }}">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input type="login" class="form-control" id="login" name="login" placeholder="Логин" value="{{ .Login }}">
                     <i class="fa fa-user"></i>
                 </div>
                 <div class="form-group help">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
                     <i class="fa fa-lock"></i>
                 </div>
+                <div class="form-group help">
+                    <input type="password" class="form-control" id="password_rep" name="password_rep" placeholder="Повторите пароль">
+                    <i class="fa fa-lock"></i>
+                </div>
                 <div class="row justify-content-between">
-                    <button type="submit" class="col btn btn-outline-success" style="max-width: 200px; margin-left: 50px;">ВХОД</button>
-                    <button class="col btn btn-info" type="button" onclick="window.location.replace('/signup');" style="max-width: 200px; margin-right: 50px;">Регистрация</button>
+                    <button type="submit" class="col btn btn-outline-success" style="max-width: 200px; margin-left: 50px;">Зарегистрироваться</button>
+                    <button class="col btn btn-info" type="button" onclick="window.location.replace('/auth');" style="max-width: 200px; margin-right: 50px;">Вход</button>
                 </div>
                 {{if .Failed}}
-                <a>Неправильный логин или пароль!</a>
+                <a>{{ .ErrorMsg }}</a>
                 {{else}}
                 
                 {{end}}
